@@ -1,1 +1,12 @@
-# dk-grid
+## dk-grid
+The idea is to provide all the grid plumbing code, and even a working grid, but with full intention of being modified into exactly what you need. I.e. instead of making something very complex and configurable to this and that, instead make something as simple as possible, with intention of just forking it and modifying it into what you need for that instance or site. This grid has 2 modes: all data in application and data remote, the latter requiring ajax requests for page changes, the former having all the data, so just gettin another page locally. The intention is to leave this site as-is, even though it's overly complex as it's trying to handle both data cases, then break the 2 data cases into their own repos for simplicity's sake and for quick refactoring into what you need at the moment.
+
+#### architecture
+The idea is to provide a directive "not on the table", but on div that wraps the table and pager and any other grid UI, which has its own scope, then adds all grid plumbing to the scope. The table and it's pager, etc then would have visibility to the grid plumbing so could simply incorporate it in thier html utilizing ng-show, ng-click, ng-bind, etc. Not sure there's a better way to do it, just that this is terribly easy to work with. Multiple grids on the same page shouldn't be a problem as each would have its own scope and even if nested, the inner grid scope will provide for the inner scope, and outer for the outerscope. Remains to be tested in a master-slave arrangement, but even as such, code like: ng-click="$parent.nextPage()" will surely work in cases where the inner grid's functionality is visible, but you need to call the outer grid's functionality instead.
+
+There's also a test case using tr-ng-grid, but it's UI is flashing all over the place, something must have gone wrong, or... it handles remote paging horribly. Not sure which one it is at the moment. 
+
+### todo
+1. Break this into dk-grid-local and dk-grid-remote repos
+2. Figure out what's wrong with tr-ng-grid
+3. Attempt to modify it's UI to see how flexible 3rd-party grids can be down the modification line. I.e. is the dk-grid even needed? Woudl it be easy to hack a 3rd-party grid into what you need? I fear it isn't as the configuration of said grids would introduce such complexity as to render it painful to modify. Could be wrong, but surly angular-ui's grid would fall into that category if it's anything like any of their other "impossible to understand" components.
