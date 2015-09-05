@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html ng-app='app'>
+<head lang="en">
+	<title>dk-grid</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<!--<script src="/bower_components/modernizr/modernizr.js"></script>-->
+	<!--<base href="https://developer.mozilla.org/samples/cssref/">-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" href="site.css">
+	<style>
+	</style>
+</head>
+<body ng-controller="ctrl" class="container-fluid" ng-cloak>
+
+<dk-grid id="mygrid" class="dk-grid">
+	<div class="table-wrapper">
+		<div class="no-results" ng-show="noResults">No results</div>
+		<table class="table dk-table" ng-hide="noResults">
+			<thead>
+				<th dk-grid-table-header></th>
+			</thead>
+			<tbody>
+			<tr ng-repeat="item in items">
+				<td>{{item.rownum}}</td>
+				<td><span>{{item.name}}</span></td>
+				<td><span>{{item.age}}</span></td>
+				<td><span>{{item.sex}}</span></td>
+				<td><span>{{moment(item.bday).format('L')}}</span></td>
+				<td>
+					<a href="" ng-click="showEdit($index, item)">edit</a>
+					<a href="" ng-click="remove($index, item)">delete</a>
+				</td>
+			</tr>
+			<tr class="add-link-row">
+				<td colspan="6"><a href="" ng-click="showAdd()">New Item</a><br></td>
+			</tr>
+			<tr class="edit-row" style="display:none">
+				<td>{{editItem.rownum}}</td>
+				<td><input ng-model="editItem.name"></td>
+				<td><input ng-model="editItem.age"></td>
+				<td>
+					<select ng-model="editItem.sex">
+						<option value=""></option>
+						<option value="M">Male</option>
+						<option value="F">Female</option>
+					</select>
+				</td>
+				<td><input std-date ng-model="editItem.bday"></td>
+				<td>
+					<a href="" ng-click="cancelEdit()" ng-hide="addMode">cancel</a>
+					<a href="" ng-click="cancelAdd()" ng-show="addMode">cancel</a>
+					<a href="" ng-click="update()" ng-hide="addMode">update</a>
+					<a href="" ng-click="add()" ng-show="addMode">add</a>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<dk-grid-pager></dk-grid-pager>
+
+	<div class="dk-edit-dlg-backdrop" style="display:none;"></div>
+	<div class="dk-edit-dlg" style="display:none;">
+		<h3 ng-show="addMode" class="dk-edit-dlg-title">Add User</h3>
+
+		<h3 ng-show="editMode" class="dk-edit-dlg-title">Edit User</h3>
+
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label for="editName" class="control-label col-sm-4">Name</label>
+
+				<div class="col-sm-8"><input id="editName" ng-model="editItem.name" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<label for="editAge" class="control-label col-sm-4">Age</label>
+
+				<div class="col-sm-8"><input id="editAge" ng-model="editItem.age" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<label for="editSex" class="control-label col-sm-4">Sex</label>
+
+				<div class="col-sm-8">
+					<select id="editSex" ng-model="editItem.sex" class="form-control">
+						<option value=""></option>
+						<option value="M">Male</option>
+						<option value="F">Female</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="editBday" class="control-label col-sm-4">Birthday</label>
+
+				<div class="col-sm-8"><input id="editBday" std-date ng-model="editItem.bday" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-8">
+					<a href="" ng-click="cancelEdit()" ng-hide="addMode"
+						class="btn btn-default dk-edit-dlg-button">cancel</a>
+					<a href="" ng-click="cancelAdd()" ng-show="addMode" class="btn btn-default dk-edit-dlg-button">cancel</a>
+					<a href="" ng-click="update()" ng-hide="addMode" class="btn btn-default dk-edit-dlg-button">update</a>
+					<a href="" ng-click="add()" ng-show="addMode" class="btn btn-default dk-edit-dlg-button">add</a>
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+</dk-grid>
+
+
+<script src="/bower_components/lodash/lodash.js"></script>
+<script src="/bower_components/moment/moment.js"></script>
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="/bower_components/angular/angular.js"></script>
+<script src="/bower_components/angular-animate/angular-animate.js"></script>
+<script src="app/app.js"></script>
+<script src="app/dk-grid.js"></script>
+<script src="app/dk-grid-pager.js"></script>
+<script src="app/dk-grid-table-header.js"></script>
+<script src="app/userRepo.js"></script>
+</body>
+</html>
